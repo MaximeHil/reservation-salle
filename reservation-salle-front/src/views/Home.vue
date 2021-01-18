@@ -1,18 +1,28 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <ul class="list-group">
+    <RoomItem v-for="room in rooms"
+    :key="room.name"
+    :name="room.name"
+    :description="room.description"
+    :capacity="room.capacity"
+    :equipements="room.equipements"/>
+    </ul>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import { mapState } from 'vuex'
+import RoomItem from "@/components/RoomItem";
 
 export default {
   name: 'Home',
   components: {
-    HelloWorld
+    RoomItem,
+  },
+  computed: {
+    ...mapState(['rooms'])
   }
 }
 </script>
