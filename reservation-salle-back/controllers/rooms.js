@@ -8,8 +8,8 @@ exports.getAllRooms = (req, res, next) => {
 
 exports.getRoomsWithName = (req, res, next) => {
     let jsonRooms = JSON.parse(fs.readFileSync(`${__dirname}/rooms.json`, 'utf-8'));
-
-    let filteredRooms = jsonRooms.rooms.filter(room => room.name.toLocaleLowerCase().includes(req.body.searchString.toLowerCase()));
+    console.log(req.params);
+    let filteredRooms = jsonRooms.rooms.filter(room => room.name.toLocaleLowerCase().includes(req.params.filter.toLowerCase()));
 
     if(filteredRooms && filteredRooms.length > 0){
         res.status(200).json(filteredRooms);
@@ -24,7 +24,7 @@ exports.getRoomsWithEquipement = (req, res, next) => {
     /*let filteredRooms = jsonRooms.rooms.filter(room => room.equipements.filter(
         equipement => equipement.name.toLowerCase().includes(req.body.searchString.toLowerCase())
     ));*/
-    if(!req.body.searchString){
+    if(!req.params.filter){
         console.log("Pas de mot pour filtrer")
         res.status(200).json(jsonRooms);
     } else {
@@ -32,7 +32,7 @@ exports.getRoomsWithEquipement = (req, res, next) => {
         let filteredRooms = jsonRooms.rooms.filter(
             room => {
                 test = room.equipements.filter(
-                    equipement => equipement.name.toLowerCase().includes(req.body.searchString.toLowerCase())
+                    equipement => equipement.name.toLowerCase().includes(req.params.filter.toLowerCase())
                 )
                 if(test && test.length>0){
                     return room;

@@ -4,8 +4,8 @@ const router = express.Router();
 const roomsCtrl = require('../controllers/rooms');
 
 router.post('/reservation', roomsCtrl.bookRoom);
-router.get('/name', roomsCtrl.getRoomsWithName);
-router.get('/equipement', roomsCtrl.getRoomsWithEquipement);
+router.get('/name/:filter', roomsCtrl.getRoomsWithName);
+router.get('/equipement/:filter', roomsCtrl.getRoomsWithEquipement);
 router.get('/', roomsCtrl.getAllRooms);
 
 
