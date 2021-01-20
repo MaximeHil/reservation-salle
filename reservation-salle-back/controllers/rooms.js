@@ -12,21 +12,19 @@ exports.getRoomsWithName = (req, res, next) => {
     let filteredRooms = jsonRooms.rooms.filter(room => room.name.toLocaleLowerCase().includes(req.params.filter.toLowerCase()));
 
     if(filteredRooms && filteredRooms.length > 0){
-        res.status(200).json(filteredRooms);
+        res.status(200).json({ rooms: filteredRooms});
     }else {
-        res.status(200).json({message: "Aucune salle ne correspond"})
+        res.status(200).json({rooms: [], message: "Aucune salle ne correspond"})
     }
 
 }
 
 exports.getRoomsWithEquipement = (req, res, next) => {
     let jsonRooms = JSON.parse(fs.readFileSync(`${__dirname}/rooms.json`, 'utf-8'));
-    /*let filteredRooms = jsonRooms.rooms.filter(room => room.equipements.filter(
-        equipement => equipement.name.toLowerCase().includes(req.body.searchString.toLowerCase())
-    ));*/
+
     if(!req.params.filter){
         console.log("Pas de mot pour filtrer")
-        res.status(200).json(jsonRooms);
+        res.status(400).json({ message: "Pas de filtre donné"});
     } else {
         let test;
         let filteredRooms = jsonRooms.rooms.filter(
@@ -40,12 +38,12 @@ exports.getRoomsWithEquipement = (req, res, next) => {
             }
         )
 
-        console.log(test);
+        console.log(filteredRooms);
 
         if(filteredRooms && filteredRooms.length > 0){
-            res.status(200).json(filteredRooms);
+            res.status(200).json({ rooms: filteredRooms});
         }else {
-            res.status(200).json({message: "Aucune salle ne correspond"})
+            res.status(200).json({rooms: [], message: "Aucune salle ne correspond"})
         }
     }
 }
