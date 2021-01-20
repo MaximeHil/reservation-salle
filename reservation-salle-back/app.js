@@ -4,8 +4,9 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const app = express();
 const roomsRoute = require("./routes/rooms");
+const dotenv = require('dotenv').config()
 
-mongoose.connect('mongodb+srv://user_maxime:mongo6Bc9ae7ab78@mycluster.idkho.mongodb.net/test?retryWrites=true&w=majority',
+mongoose.connect(process.env.MONGODB_URI,
     { useNewUrlParser: true,
         useUnifiedTopology: true })
     .then(() => console.log('Connexion à MongoDB réussie !'))
