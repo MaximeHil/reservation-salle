@@ -48,6 +48,30 @@ exports.getRoomsWithEquipement = (req, res, next) => {
     }
 }
 
+exports.getRoomsWithCapacity = (req, res, next) => {
+    let jsonRooms = JSON.parse(fs.readFileSync(`${__dirname}/rooms.json`, 'utf-8'));
+    console.log(req.params);
+
+    if(isNaN(req.params.filter)){
+        res.status(400).json({ message: "La capacité de la salle doit être un nombre",rooms: []});
+        return;
+    }
+
+    if(req.params.filter < 0){
+        res.status(400).json({ message: "La capacité de la salle doit être positive",rooms: []});
+        return;
+    }
+
+    let filteredRooms = jsonRooms.rooms.filter(room => room.capacity >= req.params.filter);
+
+    if(filteredRooms && filteredRooms.length > 0){
+        res.status(200).json({ rooms: filteredRooms});
+    }else {
+        res.status(200).json({rooms: [], message: "Aucune salle ne correspond"})
+    }
+
+}
+
 exports.bookRoom = (req, res, next) => {
     console.log(req.body);
     const reservObject = req.body.reservation;
